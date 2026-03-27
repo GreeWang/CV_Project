@@ -1,6 +1,6 @@
 input:
-  video_path: data/raw/bmx-trees/input.mp4
-  frames_dir: null
+  video_path: null
+  frames_dir: data/raw/bmx-trees/frames
   image_extensions: [".png", ".jpg", ".jpeg", ".bmp"]
   max_long_side: 960
 
