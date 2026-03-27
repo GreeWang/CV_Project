@@ -1,0 +1,61 @@
+input:
+  video_path: data/raw/bmx-trees/input.mp4
+  frames_dir: null
+  image_extensions: [".png", ".jpg", ".jpeg", ".bmp"]
+  max_long_side: 960
+
+output:
+  dataset_name: bmx-trees
+  root_dir: results/part1
+  save_fps: null
+  frame_name_width: 6
+
+segmentation:
+  model_name: yolov8n-seg.pt
+  device: cuda:0
+  confidence_threshold: 0.35
+  iou_threshold: 0.5
+  dynamic_classes:
+    - person
+    - bicycle
+    - motorcycle
+    - car
+    - bus
+    - truck
+
+motion:
+  max_corners: 100
+  quality_level: 0.01
+  min_distance: 5
+  block_size: 7
+  lk_win_size: 21
+  lk_max_level: 3
+  lk_max_iterations: 30
+  lk_epsilon: 0.01
+  min_valid_points: 8
+  displacement_threshold: 2.5
+  persistence_window: 3
+  persistence_votes: 2
+  persistence_iou_threshold: 0.2
+
+mask_postprocess:
+  fill_holes: true
+  min_component_area_ratio: 0.0005
+  dilation_kernel_size: 7
+  temporal_smoothing: true
+  temporal_window: 3
+  temporal_votes: 2
+
+inpainting:
+  temporal_radius: 3
+  use_temporal_copy: true
+  use_temporal_median: true
+  fallback_method: telea
+  inpaint_radius: 3
+
+visualization:
+  save_report_frames: 8
+  report_frame_indices: []
+  panel_font_scale: 0.6
+  panel_font_thickness: 1
+  mask_alpha: 0.45
