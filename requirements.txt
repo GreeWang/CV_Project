@@ -4,6 +4,4 @@ pyyaml
 tqdm
 matplotlib
 opencv-python
-torch
-torchvision
 ultralytics
