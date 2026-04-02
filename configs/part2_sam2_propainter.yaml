@@ -1,0 +1,21 @@
+# Part 2: SAM 2 + ProPainter Pipeline Configuration
+
+data:
+  input_video: "data/raw/wild_video/car.mp4" # Default input, override via CLI
+  output_dir: "data/outputs/part2"
+
+sam2:
+  checkpoint: "checkpoints/sam2_hiera_small.pt"
+  model_cfg: "sam2_hiera_s.yaml" # Relative to sam2 configs, or explicit path
+  prompt:
+    type: "box" # or "point", "auto" (if YOLO integrated)
+    points: []
+    labels: []
+    box: [] # e.g. [x_min, y_min, x_max, y_max]
+
+propainter:
+  checkpoint_dir: "checkpoints/propainter"
+  resize_ratio: 1.0 # 1.0 means original size, can lower for speed on limited VRAM
+  mask_dilation: 5 # Pixels to dilate the SAM mask to avoid edge artifacts
+  neighbor_stride: 5 # Frame step, standard is 5-10
+  subvideo_length: 80 # Max frames to process in one clip if memory limited
