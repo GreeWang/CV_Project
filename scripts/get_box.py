@@ -10,14 +10,27 @@ def main():
 
     video_path = args.video
     if not os.path.exists(video_path):
-        print(f"Error: Video file not found at {video_path}")
+        print(f"Error: Path not found at {video_path}")
         sys.exit(1)
 
-    cap = cv2.VideoCapture(video_path)
-    ret, frame = cap.read()
-    
-    if not ret:
-        print("Error: Could not read the first frame of the video.")
+    frame = None
+    if os.path.isdir(video_path):
+        # Read the first image in the directory
+        valid_exts = ('.jpg', '.png', '.jpeg')
+        files = sorted([f for f in os.listdir(video_path) if f.lower().endswith(valid_exts)])
+        if not files:
+            print(f"Error: No image files found in directory {video_path}")
+            sys.exit(1)
+        first_frame_path = os.path.join(video_path, files[0])
+        frame = cv2.imread(first_frame_path)
+    else:
+        # Treat as video file
+        cap = cv2.VideoCapture(video_path)
+        ret, frame = cap.read()
+        cap.release()
+
+    if frame is None:
+        print("Error: Could not read the image or video.")
         sys.exit(1)
 
     print("\n--- INSTRUCTIONS ---")
